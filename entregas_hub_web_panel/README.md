@@ -92,8 +92,10 @@ Principais dependências utilizadas (conforme o pubspec.yaml):
 - **Firebase:** Utilizado para atualizações em tempo real no módulo de estoque, por meio do firebase_service.dart.
 - **Nota: Para detalhes sobre as versões específicas das dependências, consulte o arquivo pubspec.yaml.**
 
-Como Executar
-Clone o repositório:
+---
+
+## Como Executar
+- **Clone o repositório:**
 
 bash
 Copiar
