@@ -80,15 +80,16 @@ lib/
 │  └─ widgets/               # Widgets e componentes customizados
 │     └─ custom_toast.dart
 └─ main.dart                 # Ponto de entrada da aplicação
+```
 
-Dependências
+##Dependências
 Principais dependências utilizadas (conforme o pubspec.yaml):
 
-Flutter SDK: Framework base para o desenvolvimento da aplicação.
-GetX: Gerenciamento de estado, injeção de dependências e navegação.
-import 'package:get/get.dart';
-Firebase: Utilizado para atualizações em tempo real no módulo de estoque, por meio do firebase_service.dart.
-Nota: Para detalhes sobre as versões específicas das dependências, consulte o arquivo pubspec.yaml.
+- **Flutter SDK:** Framework base para o desenvolvimento da aplicação.
+- **GetX:** Gerenciamento de estado, injeção de dependências e navegação.
+`import 'package:get/get.dart';`
+- **Firebase:** Utilizado para atualizações em tempo real no módulo de estoque, por meio do firebase_service.dart.
+- **Nota: Para detalhes sobre as versões específicas das dependências, consulte o arquivo pubspec.yaml.**
 
 Como Executar
 Clone o repositório:
