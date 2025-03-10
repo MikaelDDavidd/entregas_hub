@@ -97,45 +97,53 @@ Principais dependências utilizadas (conforme o pubspec.yaml):
 ## Como Executar
 - **Clone o repositório:**
 
-bash
-Copiar
-Editar
+# Entregas Hub Web Panel
+
+## Instalação
+```bash
 git clone https://github.com/seu-usuario/entregas_hub_web_panel.git
 cd entregas_hub_web_panel
-Instale as dependências:
+```
 
-bash
-Copiar
-Editar
+### Instale as dependências:
+```bash
 flutter pub get
-Execute a aplicação:
+```
 
-bash
-Copiar
-Editar
+### Execute a aplicação:
+```bash
 flutter run -d chrome
-Observação: Certifique-se de que o suporte para web está habilitado no Flutter para rodar a aplicação no navegador.
+```
 
-Funcionalidades
-Interface Responsiva: Design adaptável para diferentes tamanhos de tela.
-Navegação Simplificada: Gerenciada pelo GetX, proporcionando transições suaves entre os módulos.
-Atualização em Tempo Real: Dados do estoque atualizados via Firebase.
-Temas Personalizados: Suporte aos temas claro e escuro, configurados em AppTheme.
-Como Contribuir
-Faça um fork do repositório.
-Crie uma branch para a sua feature:
-bash
-Copiar
-Editar
+**Observação:** Certifique-se de que o suporte para web está habilitado no Flutter para rodar a aplicação no navegador.
+
+---
+
+## Funcionalidades
+- **Interface Responsiva:** Design adaptável para diferentes tamanhos de tela.
+- **Navegação Simplificada:** Gerenciada pelo GetX, proporcionando transições suaves entre os módulos.
+- **Atualização em Tempo Real:** Dados do estoque atualizados via Firebase.
+- **Temas Personalizados:** Suporte aos temas claro e escuro, configurados em AppTheme.
+
+---
+
+## Como Contribuir
+1. Faça um fork do repositório.
+2. Crie uma branch para a sua feature:
+```bash
 git checkout -b feature/nova-funcionalidade
-Realize as alterações e efetue commits com mensagens claras.
-Envie a branch para o repositório remoto:
-bash
-Copiar
-Editar
+```
+3. Realize as alterações e efetue commits com mensagens claras.
+4. Envie a branch para o repositório remoto:
+```bash
 git push origin feature/nova-funcionalidade
-Abra um Pull Request descrevendo as alterações realizadas.
-Licença
-Este projeto está licenciado sob a MIT License.
+```
+5. Abra um Pull Request descrevendo as alterações realizadas.
 
-Observação: Este README será atualizado conforme novas funcionalidades forem implementadas.
+---
+
+## Licença
+Este projeto está licenciado sob a **MIT License**.
+
+**Observação:** Este README será atualizado conforme novas funcionalidades forem implementadas.
+
