@@ -127,21 +127,6 @@ flutter run -d chrome
 
 ---
 
-## Como Contribuir
-1. Faça um fork do repositório.
-2. Crie uma branch para a sua feature:
-```bash
-git checkout -b feature/nova-funcionalidade
-```
-3. Realize as alterações e efetue commits com mensagens claras.
-4. Envie a branch para o repositório remoto:
-```bash
-git push origin feature/nova-funcionalidade
-```
-5. Abra um Pull Request descrevendo as alterações realizadas.
-
----
-
 ## Licença
 Este projeto está licenciado sob a **MIT License**.
 
