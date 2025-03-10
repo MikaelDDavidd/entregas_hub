@@ -1,7 +1,4 @@
-Segue abaixo um exemplo de README para o web panel, estruturado em Markdown:
-
-```markdown
-<!-- Banner do Projeto -->
+<!-- Banner -->
 ![Entregas Hub Web Panel](https://via.placeholder.com/1200x300?text=Entregas+Hub+Web+Panel)
 
 # Entregas Hub Web Panel
@@ -25,7 +22,7 @@ O **Entregas Hub Web Panel** é um painel web desenvolvido em Flutter para monit
 
 ## Visão Geral
 
-O **Entregas Hub Web Panel** integra-se ao ecossistema do Kit de Logística de Encomendas, permitindo o acompanhamento e gerenciamento das entregas, retiradas e estoque dos pacotes de forma centralizada. A aplicação utiliza o GetX para gerenciamento de estado, injeção de dependências e navegação, e integra serviços do Firebase para atualização em tempo real.
+O **Entregas Hub Web Panel** integra-se ao ecossistema do Kit de Logística de Encomendas, permitindo o acompanhamento e gerenciamento das entregas, retiradas e estoque dos pacotes de forma centralizada. A aplicação utiliza o GetX para gerenciamento de estado, injeção de dependências e navegação, além de integrar serviços do Firebase para atualização em tempo real no módulo de estoque.
 
 ---
 
@@ -36,7 +33,12 @@ A aplicação segue uma arquitetura modular, separando as funcionalidades em dif
 - **Módulo Home:** Apresenta informações gerais e o dashboard principal.
 - **Módulo Stock:** Gerencia o controle do estoque dos pacotes, exibindo dados em tempo real via Firebase.
 
-Além desses, há pastas dedicadas à comunicação com a API, definição de modelos de dados, configuração de rotas, serviços (como o de Firebase), temas personalizados e widgets reutilizáveis.
+Outros aspectos importantes da arquitetura:
+- **Comunicação com a API:** Implementada na pasta `data/api`.
+- **Modelos de Dados:** Definidos na pasta `models`, por exemplo, o `delivery_model.dart`.
+- **Configuração de Rotas:** Gerenciada através dos arquivos em `routes` (`app_pages.dart` e `app_routes.dart`).
+- **Serviços:** Como o `firebase_service.dart` para integrar a aplicação ao Firebase.
+- **Temas e Widgets:** Personalizações de UI estão concentradas em `theme` e `widgets`.
 
 ---
 
@@ -78,77 +80,3 @@ lib/
 │  └─ widgets/               # Widgets e componentes customizados
 │     └─ custom_toast.dart
 └─ main.dart                 # Ponto de entrada da aplicação
-```
-
----
-
-## Dependências
-
-As principais dependências do projeto (conforme definido no `pubspec.yaml`) são:
-
-- **Flutter SDK:** Framework base para o desenvolvimento da aplicação.
-- **GetX:** Gerenciamento de estado, injeção de dependências e navegação.  
-  `import 'package:get/get.dart';`
-- **Firebase:** Utilizado para atualização em tempo real no módulo de estoque.  
-  *Exemplo de integração no `firebase_service.dart`.*
-
-> **Nota:** Para versões específicas das dependências, consulte o arquivo `pubspec.yaml`.
-
----
-
-## Como Executar
-
-1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/seu-usuario/entregas_hub_web_panel.git
-   cd entregas_hub_web_panel
-   ```
-
-2. **Instale as dependências:**
-   ```bash
-   flutter pub get
-   ```
-
-3. **Execute a aplicação:**
-   ```bash
-   flutter run -d chrome
-   ```
-   > *Certifique-se de que o suporte web esteja habilitado no Flutter para rodar a aplicação no navegador.*
-
----
-
-## Funcionalidades
-
-- **Interface Responsiva:** Design adaptável para diferentes tamanhos de tela.
-- **Navegação Simplificada:** Gerenciada pelo GetX, garantindo transições suaves entre módulos.
-- **Atualização em Tempo Real:** Dados do estoque atualizados via Firebase.
-- **Temas Personalizados:** Suporte a temas claro e escuro configurados através de `AppTheme`.
-
----
-
-## Como Contribuir
-
-1. Faça um fork do repositório.
-2. Crie uma branch para a sua feature:
-   ```bash
-   git checkout -b feature/nova-funcionalidade
-   ```
-3. Realize as alterações e efetue commits com mensagens claras.
-4. Envie a branch para o repositório remoto:
-   ```bash
-   git push origin feature/nova-funcionalidade
-   ```
-5. Abra um Pull Request descrevendo as alterações realizadas.
-
----
-
-## Licença
-
-Este projeto está licenciado sob a [MIT License](LICENSE).
-
----
-
-*Observação:* Este README será atualizado conforme novas funcionalidades forem implementadas.
-```
-
-Essa estrutura visa fornecer uma visão clara e completa do **Entregas Hub Web Panel**, facilitando a compreensão e a colaboração de novos desenvolvedores no projeto.
