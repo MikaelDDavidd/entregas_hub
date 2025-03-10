@@ -80,3 +80,58 @@ lib/
 │  └─ widgets/               # Widgets e componentes customizados
 │     └─ custom_toast.dart
 └─ main.dart                 # Ponto de entrada da aplicação
+
+Dependências
+Principais dependências utilizadas (conforme o pubspec.yaml):
+
+Flutter SDK: Framework base para o desenvolvimento da aplicação.
+GetX: Gerenciamento de estado, injeção de dependências e navegação.
+import 'package:get/get.dart';
+Firebase: Utilizado para atualizações em tempo real no módulo de estoque, por meio do firebase_service.dart.
+Nota: Para detalhes sobre as versões específicas das dependências, consulte o arquivo pubspec.yaml.
+
+Como Executar
+Clone o repositório:
+
+bash
+Copiar
+Editar
+git clone https://github.com/seu-usuario/entregas_hub_web_panel.git
+cd entregas_hub_web_panel
+Instale as dependências:
+
+bash
+Copiar
+Editar
+flutter pub get
+Execute a aplicação:
+
+bash
+Copiar
+Editar
+flutter run -d chrome
+Observação: Certifique-se de que o suporte para web está habilitado no Flutter para rodar a aplicação no navegador.
+
+Funcionalidades
+Interface Responsiva: Design adaptável para diferentes tamanhos de tela.
+Navegação Simplificada: Gerenciada pelo GetX, proporcionando transições suaves entre os módulos.
+Atualização em Tempo Real: Dados do estoque atualizados via Firebase.
+Temas Personalizados: Suporte aos temas claro e escuro, configurados em AppTheme.
+Como Contribuir
+Faça um fork do repositório.
+Crie uma branch para a sua feature:
+bash
+Copiar
+Editar
+git checkout -b feature/nova-funcionalidade
+Realize as alterações e efetue commits com mensagens claras.
+Envie a branch para o repositório remoto:
+bash
+Copiar
+Editar
+git push origin feature/nova-funcionalidade
+Abra um Pull Request descrevendo as alterações realizadas.
+Licença
+Este projeto está licenciado sob a MIT License.
+
+Observação: Este README será atualizado conforme novas funcionalidades forem implementadas.
