@@ -1,0 +1,4 @@
+#Fri Nov 15 20:45:28 BRT 2024
+base.0=/Users/mikaeldavid/Documents/GitHub/eaasy_stock/android/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

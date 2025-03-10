@@ -1,0 +1,47 @@
+[
+    {
+        "label": "Zoologico",
+        "kind": 6,
+        "importPath": "lib.app.modules.login.views.class Zoologico:.py",
+        "description": "lib.app.modules.login.views.class Zoologico:.py",
+        "peekOfCode": "class Zoologico:\n    animais = []\nclass Animal:\n    def __init__(self, especie, classe, tamanho, peso):\n        self.especie = especie\n        self.classe = classe\n        self.tamanho = tamanho\n        self.peso = peso\nclass Gerente:\n    def set_especie(self):",
+        "detail": "lib.app.modules.login.views.class Zoologico:.py",
+        "documentation": {}
+    },
+    {
+        "label": "Animal",
+        "kind": 6,
+        "importPath": "lib.app.modules.login.views.class Zoologico:.py",
+        "description": "lib.app.modules.login.views.class Zoologico:.py",
+        "peekOfCode": "class Animal:\n    def __init__(self, especie, classe, tamanho, peso):\n        self.especie = especie\n        self.classe = classe\n        self.tamanho = tamanho\n        self.peso = peso\nclass Gerente:\n    def set_especie(self):\n        especie = input(\"insira um nome \")\n        return especie",
+        "detail": "lib.app.modules.login.views.class Zoologico:.py",
+        "documentation": {}
+    },
+    {
+        "label": "Gerente",
+        "kind": 6,
+        "importPath": "lib.app.modules.login.views.class Zoologico:.py",
+        "description": "lib.app.modules.login.views.class Zoologico:.py",
+        "peekOfCode": "class Gerente:\n    def set_especie(self):\n        especie = input(\"insira um nome \")\n        return especie\n    def set_classe(self):\n        classe = input(\"insira uma especie \")\n        return classe\n    def set_tamanho(self):\n        tamanho = float(input(\"insira o tamanho \"))\n        return tamanho",
+        "detail": "lib.app.modules.login.views.class Zoologico:.py",
+        "documentation": {}
+    },
+    {
+        "label": "Guia",
+        "kind": 6,
+        "importPath": "lib.app.modules.login.views.class Zoologico:.py",
+        "description": "lib.app.modules.login.views.class Zoologico:.py",
+        "peekOfCode": "class Guia:\n    pass\ngerente = Gerente()\ngerente.cadastrar_animais()",
+        "detail": "lib.app.modules.login.views.class Zoologico:.py",
+        "documentation": {}
+    },
+    {
+        "label": "gerente",
+        "kind": 5,
+        "importPath": "lib.app.modules.login.views.class Zoologico:.py",
+        "description": "lib.app.modules.login.views.class Zoologico:.py",
+        "peekOfCode": "gerente = Gerente()\ngerente.cadastrar_animais()",
+        "detail": "lib.app.modules.login.views.class Zoologico:.py",
+        "documentation": {}
+    }
+]

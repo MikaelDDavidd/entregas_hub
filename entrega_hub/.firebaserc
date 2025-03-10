@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "default": "entrega-hub"
+  },
+  "targets": {},
+  "etags": {
+    "entrega-hub": {
+      "extensionInstances": {}
+    }
+  },
+  "dataconnectEmulatorConfig": {}
+}

@@ -1,0 +1,43 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "entrega-hub",
+          "appId": "1:336552304292:android:0fecb2257660deaa3d1031",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "entrega-hub",
+          "appId": "1:336552304292:ios:3dbf04787f9deb973d1031",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "entrega-hub",
+          "configurations": {
+            "android": "1:336552304292:android:0fecb2257660deaa3d1031",
+            "ios": "1:336552304292:ios:3dbf04787f9deb973d1031"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ]
+}

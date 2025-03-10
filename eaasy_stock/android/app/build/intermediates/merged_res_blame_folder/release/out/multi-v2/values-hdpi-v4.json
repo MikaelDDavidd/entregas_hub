@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "kael.eaasy_stock.app.eaasy_stock.app-mergeReleaseResources-36:/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "/Users/mikaeldavid/.gradle/caches/transforms-3/115f3297f43b9b3c6ec2138fd9ecba6f/transformed/appcompat-1.4.2/res/values-hdpi-v4/values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    }
+                }
+            ]
+        }
+    ]
+}
