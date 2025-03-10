@@ -109,7 +109,7 @@ Cada componente possui sua própria documentação detalhada:
 - **Pickup Hub:** [Documentação](./apps/pickup-hub/README.md)
 - **Eaasy Estoque:** [Documentação](./apps/eaasy-estoque/README.md)
 - **Entregas Hub Web Panel:** [Documentação](./web-panel/README.md)
-- **API:** [Documentação](./api/README.md)
+- **API:** [Documentação](./entregas_hub_back_end/README.md)
 
 ---
 
