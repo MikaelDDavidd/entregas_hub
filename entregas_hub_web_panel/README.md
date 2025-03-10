@@ -82,7 +82,8 @@ lib/
 └─ main.dart                 # Ponto de entrada da aplicação
 ```
 
-##Dependências
+## Dependências
+
 Principais dependências utilizadas (conforme o pubspec.yaml):
 
 - **Flutter SDK:** Framework base para o desenvolvimento da aplicação.
