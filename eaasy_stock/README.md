@@ -1,5 +1,12 @@
 <!-- Banner -->
-![Eaasy Stock](https://via.placeholder.com/1200x300?text=Eaasy+Stock)
+## 📸 Capturas de Tela
+
+Aqui estão algumas capturas de tela do aplicativo **Eaasy Stok**:
+
+| Home | Registro QR Code | Registro Automático |
+|------|----------------|---------------------|
+| ![Home](screenshots/take1.png) | ![Registro QR Code](screenshots/take2.png) | ![Registro Automático](screenshots/take3.png) |
+
 
 # Eaasy Stock
 
