@@ -1,5 +1,11 @@
 <!-- Banner -->
-![Entregas Hub API](https://via.placeholder.com/1200x300?text=Entregas+Hub+API)
+## 📸 Captura de Tela - Postman
+
+Aqui está a captura de tela mostrando a resposta da API no **Postman**:
+
+![API Response - Postman](screenshots/take1.png)
+
+---
 
 # Documentação da API Entregas Hub
 
