@@ -1,5 +1,16 @@
 <!-- Banner -->
-![Entregas Hub](https://via.placeholder.com/1200x300?text=Entregas+Hub)
+## 📸 Capturas de Tela
+
+Aqui estão algumas capturas de tela do aplicativo **Entrega Hub**:
+
+| Take 1 | Take 2 |
+|--------|--------|
+| ![Take 1](screenshots/take1.png) | ![Take 2](screenshots/take2.png) |
+
+| Take 3 | Take 4 |
+|--------|--------|
+| ![Take 3](screenshots/take3.png) | ![Take 4](screenshots/take4.png) |
+
 
 # Entregas Hub
 
