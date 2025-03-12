@@ -1,5 +1,11 @@
 <!-- Banner -->
-![Entregas Hub Web Panel](https://via.placeholder.com/1200x300?text=Entregas+Hub+Web+Panel)
+## 📸 Captura de Tela - Painel de Estoque
+
+Aqui está a captura de tela da tela de estoque no painel de administração:
+
+![Tela de Estoque - Painel](screenshots/take1.png)
+
+---
 
 # Entregas Hub Web Panel
 
