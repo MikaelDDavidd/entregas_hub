@@ -3,7 +3,7 @@
 
 # Entregas Hub
 
-O **Entregas Hub** é o aplicativo destinado aos entregadores, onde é possível registrar uma entrega. No processo de registro, o entregador insere os dados do recebedor e o grau de parentesco, anexa uma foto da encomenda e escaneia para obter o código de rastreio atrelado ao pacote. O aplicativo se integra com a [API do Entregas Hub](https://github.com/seu-usuario/api) para armazenar e gerenciar os dados das entregas.
+O **Entregas Hub** é o aplicativo destinado aos entregadores, onde é possível registrar uma entrega. No processo de registro, o entregador insere os dados do recebedor e o grau de parentesco, anexa uma foto da encomenda e escaneia para obter o código de rastreio atrelado ao pacote. O aplicativo se integra com a [API do Entregas Hub](https://github.com/MikaelDDavidd/entregas_hub/tree/main/entregas_hub_back_end) para armazenar e gerenciar os dados das entregas.
 
 ---
 
@@ -187,7 +187,7 @@ Utiliza a funcionalidade de QR/barcode para capturar o código de rastreio atrel
 
 ### Integração com API:
 Os dados coletados são enviados para a API do Entregas Hub para armazenamento e gerenciamento.  
-**Acesse a API em:** _Entregas Hub API_
+**Acesse a API em:** [Entregas Hub API](https://github.com/MikaelDDavidd/entregas_hub/tree/main/entregas_hub_back_end)
 
 ---
 
