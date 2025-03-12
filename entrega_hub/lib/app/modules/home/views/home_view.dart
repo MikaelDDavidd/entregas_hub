@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:entrega_hub/theme/colors.dart';
 import 'package:entrega_hub/theme/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 
@@ -12,7 +13,7 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: ()async {
+        onRefresh: () async {
           await controller.fetchData();
         },
         child: SafeArea(
@@ -113,6 +114,39 @@ class HomeView extends GetView<HomeController> {
                     child: Center(
                       child:
                           CircularProgressIndicator(), // Indicador de carregamento
+                    ),
+                  );
+                } else if (!controller.isLoading.value &&
+                    controller.fetchError.value) {
+                  return SliverFillRemaining(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Exibe o SVG de erro
+                          SvgPicture.asset(
+                            'assets/package-failed.svg',
+                            width: 100,
+                            height: 100,
+                            colorFilter: ColorFilter.mode(
+                                AppColors.primaryColor, BlendMode.srcIn),
+                          ),
+                          SizedBox(height: 16),
+                          // Exibe a mensagem de erro
+                          Text(
+                            'Erro ao obter os pacotes. Tente novamente.',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 16),
+                          // Botão de tentar novamente
+                          ElevatedButton(
+                            onPressed: () {
+                              controller.fetchData(); // Recarrega os dados
+                            },
+                            child: Text('Tentar Novamente', style: TextStyles.buttonText,),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 } else {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:entrega_hub/app/models/package_model.dart';
@@ -18,35 +19,37 @@ class HomeController extends GetxController {
   final pendingPackages = <Map<String, dynamic>>[].obs;
   var packages = <PackageModel>[].obs;
   var isLoading = false.obs;
+  var fetchError = false.obs;
   final searchController = TextEditingController();
   final qrCode = ''.obs;
   File? imageFile;
   String location = 'Estante';
 
-  Future<void> fetchData() async {
+Future<void> fetchData() async {
+    isLoading(true);
+    fetchError(false);
     try {
-      isLoading(true); // Inicia o carregamento
-      final response =
-          await https.get(Uri.parse('http://mikaeldavid.online/api/packages'));
+      final response = await https
+          .get(Uri.parse('http://mikaeldavid.online/api/packages'))
+          .timeout(Duration(seconds: 10)); // Timeout de 10 segundos
 
       if (response.statusCode == 200) {
-        // Se a requisição for bem-sucedida, parse o JSON
         var data = jsonDecode(response.body);
-
-        if (data['status'] == 200 && data['data'] != null) {
-          var dataList = data['data'] as List;
-
-          // Mapeia os dados para o modelo
-          packages.value =
-              dataList.map((e) => PackageModel.fromJson(e)).toList();
-        } else {
-          throw Exception('Erro na resposta da API');
-        }
+        // Processa os dados normalmente
+        packages.assignAll(data.map<PackageModel>((json) => PackageModel.fromJson(json)).toList());
       } else {
-        throw Exception('Failed to load packages');
+        fetchError(true);
+        throw Exception('Falha ao carregar pacotes: ${response.statusCode}');
       }
+    } on TimeoutException catch (e) {
+      fetchError(true);
+      print('Tempo de conexão expirou: $e');
+    } on SocketException catch (e) {
+      fetchError(true);
+      print('Erro de rede: $e');
     } catch (e) {
-      print('Error: $e');
+      fetchError(true);
+      print('Erro geral: $e');
     } finally {
       isLoading(false); // Finaliza o carregamento
     }

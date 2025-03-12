@@ -59,7 +59,7 @@ class LoginView extends GetView<LoginController> {
                 },
                 child: Text(
                   'Login',
-                  style: TextStyles.bodyText,
+                  style: TextStyles.buttonText,
                 ),
               )
             ],

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  final String baseUrl = 'http://191.252.202.88:3000/api';
+  final String baseUrl = 'http://mikaeldavid.online/api';
 
   // Upload da imagem para o endpoint /upload
   Future<String?> uploadImage(File imageFile) async {

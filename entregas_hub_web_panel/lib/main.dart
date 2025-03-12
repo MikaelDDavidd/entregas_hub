@@ -10,6 +10,7 @@ void main() {
   Get.put(StockController());
   runApp(
     GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       // Aplicando o tema escuro
       darkTheme: AppTheme.darkTheme,
