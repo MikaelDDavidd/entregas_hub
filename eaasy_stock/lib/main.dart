@@ -1,19 +1,22 @@
 import 'package:eaasy_stock/app/data/localized_stirngs.dart';
+import 'package:eaasy_stock/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'app/routes/app_pages.dart';
-
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     GetMaterialApp(
-      title: "Application",
+      title: "Eaasy Stock",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
-      locale: _getDeviceLocale(), // Determina o idioma do dispositivo
-      fallbackLocale: Locale('en', 'US'), // Caso não seja português, fallback para inglês
-      translationsKeys: LocalizedStrings.getLocalizedStrings(), // Passa as strings manualmente
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
+      locale: _getDeviceLocale(),
+      fallbackLocale: Locale('en', 'US'),
+      translationsKeys: LocalizedStrings.getLocalizedStrings(),
     ),
   );
 }
@@ -25,7 +28,7 @@ Locale _getDeviceLocale() {
   // Se for português (Brasil), retorna 'pt_BR'
   if (deviceLocale.languageCode == 'pt' && deviceLocale.countryCode == 'BR') {
     return Locale('pt', 'BR');
-  } else {
+  } else { 
     return Locale('en', 'US'); // Para outros idiomas, usa 'en_US' como fallback
   }
 }

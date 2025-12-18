@@ -5,12 +5,15 @@ import path from "path";
 import crypto from "crypto";
 import fs from "fs"; // Importando o módulo File System
 import { fileURLToPath } from "url"; // Import necessário para usar __dirname em ES Modules
-import { uploadProductImage, listDeliveries, postNewDelivery, updateNewDelivery } from "../controller/deliveries_controller.js";
+import { uploadProductImage, listDeliveries, postNewDelivery, updateNewDelivery, deletePackage, deleteAllPackagesByDeliveryMan, listDeliveryMen } from "../controller/deliveries_controller.js";
 
 // Configuração de CORS
 const corsOptions = {
-  origin: "http://localhost:3000", // Permite requisições do frontend local
+  origin: "*", // Permite requisições de qualquer origem (desenvolvimento)
   optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 };
 
 // Resolução de `__dirname` em ES Modules
@@ -53,6 +56,9 @@ const routes = (app) => {
   app.post("/api/packages", postNewDelivery);
   app.post("/api/upload", upload.single("image"), uploadProductImage);
   app.put("/api/upload/:id", updateNewDelivery);
+  app.delete("/api/packages/:id", deletePackage);
+  app.delete("/api/packages/deliveryman/:deliveryMan", deleteAllPackagesByDeliveryMan);
+  app.get("/api/deliverymen", listDeliveryMen);
 };
 
 export default routes;

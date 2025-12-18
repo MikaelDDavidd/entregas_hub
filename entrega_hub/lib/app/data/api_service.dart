@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import '../config/api_config.dart';
 
 class ApiService {
-  final String baseUrl = 'http://mikaeldavid.online/api';
+  String get baseUrl => ApiConfig.baseUrl;
 
   // Upload da imagem para o endpoint /upload
   Future<String?> uploadImage(File imageFile) async {
@@ -20,8 +21,18 @@ class ApiService {
       var response = await request.send();
       if (response.statusCode == 200) {
         var responseData = await response.stream.bytesToString();
-        print("Response body: $responseData"); // Verifique a resposta
-        return responseData; // Retorne a URL diretamente
+        print("Response body: $responseData");
+
+        // Parse do JSON para extrair a URL
+        try {
+          var jsonResponse = jsonDecode(responseData);
+          String imageUrl = jsonResponse['url'];
+          print("Image URL: $imageUrl");
+          return imageUrl;
+        } catch (e) {
+          print("Erro ao fazer parse da resposta: $e");
+          return null;
+        }
       } else {
         print("Erro ao fazer upload da imagem: ${response.statusCode}");
         return null;

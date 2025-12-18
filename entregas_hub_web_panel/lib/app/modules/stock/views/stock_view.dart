@@ -1,150 +1,139 @@
-import 'package:entregas_hub_web_panel/app/theme/text_styles.dart';
+import 'package:entregas_hub_web_panel/app/modules/stock/widgets/delivery_group_widget.dart';
+import 'package:entregas_hub_web_panel/app/modules/stock/widgets/qr_code_dialog.dart';
+import 'package:entregas_hub_web_panel/app/modules/stock/widgets/search_bar_widget.dart';
+import 'package:entregas_hub_web_panel/app/modules/stock/widgets/stock_header_widget.dart';
+import 'package:entregas_hub_web_panel/app/theme/colors.dart';
+import 'package:entregas_hub_web_panel/app/widgets/skeleton_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../controllers/stock_controller.dart';
 
 class StockView extends GetView<StockController> {
-  const StockView({Key? key}) : super(key: key);
+  const StockView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
 
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        title: const Text('Pacotes por Data'),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.secondaryColor,
+                    AppColors.primaryColor,
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primaryColor.withValues(alpha: 0.3),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Icon(
+                PhosphorIcons.package(PhosphorIconsStyle.duotone),
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Text('Estoque de Pacotes'),
+          ],
+        ),
+        centerTitle: false,
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: Icon(PhosphorIcons.arrowsClockwise()),
+            tooltip: 'Atualizar',
             onPressed: controller.refreshPackages,
           ),
+          const SizedBox(width: 8),
         ],
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: searchController,
-              onChanged: (value) => controller.searchPackages(value),
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search),
-                hintText: 'Pesquisar por código de rastreio...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
+          const SizedBox(height: 16),
+          SearchBarWidget(
+            controller: searchController,
+            onChanged: controller.searchPackages,
           ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Obx(() {
-              int totalPackages = 0;
-              controller.packagesByDate.forEach((key, value) {
-                totalPackages += value.length;
-              });
-
-              return Text(
-                'Total de Pacotes: $totalPackages',
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
-            }),
-          ),
-          const SizedBox(height: 10),
+          Obx(() {
+            int totalPackages = 0;
+            controller.packagesByDate.forEach((key, value) {
+              totalPackages += value.length;
+            });
+            return StockHeaderWidget(totalPackages: totalPackages);
+          }),
+          const SizedBox(height: 16),
           Expanded(
             child: Obx(() {
               if (controller.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
+                return const SingleChildScrollView(
+                  child: DeliveriesListSkeleton(
+                    itemCount: 8,
+                    showDateHeader: true,
+                  ),
+                );
               }
 
               if (controller.packagesByDate.isEmpty) {
-                return const Center(child: Text('Nenhum pacote encontrado.'));
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          color: AppColors.iconColor.withValues(alpha: 0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          PhosphorIcons.package(PhosphorIconsStyle.duotone),
+                          size: 64,
+                          color: AppColors.iconColor,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      const Text(
+                        'Nenhum pacote encontrado',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Os pacotes aparecerão aqui assim que forem registrados',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppColors.textSecondary,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                );
               }
 
               return ListView(
                 children: controller.packagesByDate.entries.map((entry) {
-                  final date = entry.key;
-                  final deliveries = entry.value;
-
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8.0,
-                          horizontal: 16.0,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Apuração: $date',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
-                                color: Colors.blue,
-                              ),
-                            ),
-                            Text(
-                              '${deliveries.length} Pacotes',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black45,
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 4.0,
-                          horizontal: 16.0,
-                        ),
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: deliveries.map((delivery) {
-                            return Column(
-                              children: [
-                                ListTile(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 8.0,
-                                    vertical: 4.0,
-                                  ),
-                                  title: Text(
-                                    'Código: ${delivery.trackingCode}',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    'Registrado em: ${delivery.registerDate}',
-                                    style: const TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  onTap: () => _showQRCodeDialog(
-                                    context,
-                                    delivery.trackingCode,
-                                  ),
-                                ),
-                                if (delivery != deliveries.last)
-                                  const Divider(),
-                              ],
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ],
+                  return DeliveryGroupWidget(
+                    date: entry.key,
+                    deliveries: entry.value,
+                    onDeliveryTap: (trackingCode) {
+                      QRCodeDialog.show(context, trackingCode);
+                    },
                   );
                 }).toList(),
               );
@@ -152,38 +141,6 @@ class StockView extends GetView<StockController> {
           ),
         ],
       ),
-    );
-  }
-
-  void _showQRCodeDialog(BuildContext context, String trackingCode) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          title: const Text('QR Code do Pacote'),
-          content: SizedBox(
-            width: 200.0,
-            height: 300.0,
-            child: Column(
-              children: [
-                QrImageView(
-                  data: trackingCode,
-                  version: QrVersions.auto,
-                  size: 200.0,
-                ),
-                Text(trackingCode, style: AppTextStyles.bodyLarge,),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Fechar'),
-            ),
-          ],
-        );
-      },
     );
   }
 }

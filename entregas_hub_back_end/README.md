@@ -1,180 +1,427 @@
-<!-- Banner -->
-## 📸 Captura de Tela - Postman
+<div align="center">
 
-Aqui está a captura de tela mostrando a resposta da API no **Postman**:
+# Entregas Hub API
 
-![API Response - Postman](screenshots/take1.png)
+[![Node.js](https://img.shields.io/badge/Node.js-v14+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-4.21-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-6.11-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-AGPL--3.0-blue?style=for-the-badge)](LICENSE)
 
----
+**RESTful API for logistics and delivery management system**
 
-# Documentação da API Entregas Hub
-
-A **API Entregas Hub** é um serviço RESTful construído com Node.js, Express e MongoDB. Ela gerencia operações de entrega, como listagem, criação e atualização de registros de entregas, além de realizar o upload de imagens associadas às entregas.
-
----
-
-## Sumário
-
-- [Visão Geral](#visão-geral)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Dependências](#dependências)
-- [Rotas e Endpoints](#rotas-e-endpoints)
-- [Configuração e Ambiente](#configuração-e-ambiente)
-- [Como Executar](#como-executar)
-- [Licença](#licença)
+[Getting Started](#getting-started) •
+[API Reference](#api-reference) •
+[Docker](#docker-deployment) •
+[Contributing](#contributing)
 
 ---
 
-## Visão Geral
+</div>
 
-A API Entregas Hub foi desenvolvida para gerenciar registros de entregas. Suas principais funcionalidades são:
+## Overview
 
-- **Listar entregas:** Recupera a lista de registros de entregas.
-- **Criar uma nova entrega:** Registra os dados de uma nova entrega.
-- **Atualizar uma entrega:** Atualiza os dados de uma entrega já existente.
-- **Upload de imagens:** Permite o envio e processamento de imagens associadas às entregas.
+Entregas Hub API is a robust backend service built with Node.js and Express that powers a complete logistics management ecosystem. It handles delivery operations, image processing with AI-powered text extraction, and seamless integration with mobile and web applications.
 
-Os dados das entregas são armazenados em um banco de dados MongoDB, enquanto os arquivos de imagem são tratados pelo Multer e salvos na pasta `uploads`. O CORS está habilitado para permitir requisições do frontend (por exemplo, `http://localhost:3000`).
+### Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Delivery Management** | Full CRUD operations for delivery records |
+| **Image Processing** | Upload and automatic text extraction via Google Gemini AI |
+| **Multi-platform** | Supports mobile apps (Flutter) and web panel |
+| **Containerized** | Docker-ready with MongoDB for easy deployment |
+| **Real-time Filtering** | Filter deliveries by delivery person |
 
 ---
 
-## Estrutura do Projeto
+## Tech Stack
 
-```plaintext
+<table>
+<tr>
+<td align="center" width="96">
+<img src="https://skillicons.dev/icons?i=nodejs" width="48" height="48" alt="Node.js" />
+<br>Node.js
+</td>
+<td align="center" width="96">
+<img src="https://skillicons.dev/icons?i=express" width="48" height="48" alt="Express" />
+<br>Express
+</td>
+<td align="center" width="96">
+<img src="https://skillicons.dev/icons?i=mongodb" width="48" height="48" alt="MongoDB" />
+<br>MongoDB
+</td>
+<td align="center" width="96">
+<img src="https://skillicons.dev/icons?i=docker" width="48" height="48" alt="Docker" />
+<br>Docker
+</td>
+<td align="center" width="96">
+<img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg" width="48" height="48" alt="Gemini" />
+<br>Gemini AI
+</td>
+</tr>
+</table>
+
+### Dependencies
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `express` | ^4.21.1 | Web framework |
+| `mongodb` | ^6.11.0 | Database driver |
+| `multer` | ^1.4.5-lts.1 | File upload handling |
+| `@google/generative-ai` | ^0.21.0 | AI text extraction |
+| `cors` | ^2.8.5 | Cross-origin support |
+| `dotenv` | ^16.4.5 | Environment configuration |
+| `body-parser` | ^1.20.3 | Request parsing |
+| `firebase-admin` | ^13.0.1 | Firebase integration |
+
+---
+
+## Project Structure
+
+```
 entregas_hub_back_end/
-├─ src/
-│  ├─ config/
-│  │  └─ db_config.js           # Configuração de conexão com o MongoDB
-│  ├─ controller/
-│  │  └─ deliveries_controller.js  # Funções de controle para os endpoints de entregas
-│  ├─ models/
-│  │  └─ deliveries_model.js    # Modelo Mongoose para entregas
-│  ├─ routes/
-│  │  └─ deliveries_routes.js   # Definição das rotas da API
-│  └─ services/
-│     └─ gemini_service.js      # Serviços adicionais (ex.: integração com sistemas externos)
-├─ uploads/                     # Pasta para armazenar imagens enviadas
-│  └─ (arquivos de imagem)
-├─ .env                        # Variáveis de ambiente
-├─ package-lock.json
-├─ package.json
-└─ server.js                   # Ponto de entrada do servidor
+├── src/
+│   ├── config/
+│   │   └── db_config.js          # MongoDB connection
+│   ├── controller/
+│   │   └── deliveries_controller.js   # Request handlers
+│   ├── models/
+│   │   └── deliveries_model.js   # Database operations
+│   ├── routes/
+│   │   └── deliveries_routes.js  # API routes
+│   └── services/
+│       └── gemini_service.js     # AI integration
+├── uploads/                       # Image storage
+├── .env                          # Environment variables
+├── Dockerfile                    # Production container
+├── Dockerfile.dev                # Development container
+├── docker-compose.yml            # Container orchestration
+├── package.json
+└── server.js                     # Entry point
 ```
 
 ---
 
-## Dependências
-Principais dependências listadas no `package.json`:
+## Getting Started
 
-- **express (^4.21.1)**  
-  Framework para construção da API.
+### Prerequisites
 
-- **cors (^2.8.5)**  
-  Middleware que habilita o CORS para permitir requisições de outros domínios.
+- ![Node.js](https://img.shields.io/badge/Node.js-≥14.0.0-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+- ![npm](https://img.shields.io/badge/npm-≥6.0.0-CB3837?style=flat-square&logo=npm&logoColor=white)
+- ![MongoDB](https://img.shields.io/badge/MongoDB-7.0-47A248?style=flat-square&logo=mongodb&logoColor=white) (local or Atlas)
 
-- **dotenv (^16.4.5)**  
-  Carrega variáveis de ambiente a partir do arquivo `.env`.
+### Installation
 
-- **mongodb (^6.11.0)**  
-  Driver para conectar e interagir com o banco de dados MongoDB.
+1. **Clone the repository**
 
-- **multer (^1.4.5-lts.1)**  
-  Middleware para tratamento de uploads de arquivos (imagens).
-
-- **body-parser (^1.20.3)**  
-  Parseia requisições com payloads JSON.
-
-- **firebase (^11.0.2)** e **firebase-admin (^13.0.1)**  
-  Integração com serviços Firebase (se necessário).
-
-- **@google/generative-ai (^0.21.0)**  
-  Integração com serviços de IA generativa (conforme o contexto do projeto).
-
----
-
-## Rotas e Endpoints
-A API define as seguintes rotas:
-
-- **GET /api/packages**  
-  Recupera a lista de registros de entregas.  
-  _Handler:_ `listDeliveries` (em `deliveries_controller.js`)
-
-- **POST /api/packages**  
-  Cria um novo registro de entrega.  
-  _Handler:_ `postNewDelivery` (em `deliveries_controller.js`)
-
-- **POST /api/upload**  
-  Faz o upload de uma imagem associada a uma entrega.  
-  _Utiliza:_ Multer para tratamento do arquivo.  
-  _Handler:_ `uploadProductImage` (em `deliveries_controller.js`)
-
-- **PUT /api/upload/:id**  
-  Atualiza uma entrega com uma nova imagem.  
-  _Handler:_ `updateNewDelivery` (em `deliveries_controller.js`)
-
----
-
-## Configuração do Upload de Arquivos
-A configuração do Multer para tratamento do upload de imagens:
-
-```javascript
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadsPath); // Os arquivos são salvos na pasta "uploads"
-  },
-  filename: (req, file, cb) => {
-    const randomName = crypto.randomBytes(8).toString("hex");
-    const fileExtension = path.extname(file.originalname);
-    cb(null, `${randomName}${fileExtension}`); // Ex.: 9f8d7c6a2b1d4e5f.png
-  },
-});
-```
-
-Além disso, a pasta `uploads` é exposta estaticamente:
-
-```javascript
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
-```
-
----
-
-## Configuração e Ambiente
-### Variáveis de Ambiente:
-São configuradas por meio do arquivo `.env`. Você deve definir variáveis como:
-- URI do MongoDB
-- PORT
-- Outras configurações específicas do projeto
-
-### Configuração do Banco de Dados:
-A conexão com o MongoDB é gerenciada em `src/config/db_config.js`.
-
----
-
-## Como Executar
-Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/entregas_hub_back_end.git
+git clone https://github.com/mikaeldavid/entregas_hub_back_end.git
 cd entregas_hub_back_end
 ```
 
-Instale as dependências:
+2. **Install dependencies**
+
 ```bash
 npm install
 ```
 
-Configure as Variáveis de Ambiente:  
-Crie um arquivo `.env` na raiz do projeto e defina as variáveis necessárias (por exemplo, a URI do MongoDB e a PORT).
+3. **Configure environment variables**
 
-Execute o Servidor:
-```bash
-npm run dev
+Create a `.env` file in the root directory:
+
+```env
+STRING_CONEXAO=mongodb://localhost:27017/delivery-hub
+GEMINI_API_KEY=your_gemini_api_key
+BASE_URL=http://localhost:3000
+NODE_ENV=development
 ```
 
-O servidor iniciará em modo de monitoramento (watch mode) e ficará disponível na porta configurada.
+4. **Start the server**
+
+```bash
+# Development mode with auto-reload
+npm run dev
+
+# Production mode
+node server.js
+```
+
+The server will start at `http://localhost:3000`
 
 ---
 
-## Licença
-Este projeto está licenciado sob a **AGPL-version-3.0**. Consulte o arquivo LICENSE para mais detalhes.
+## API Reference
 
-**Observação:** Esta documentação pode ser atualizada conforme a API evoluir.
+### Base URL
+
+```
+http://localhost:3000/api
+```
+
+### Endpoints
+
+#### Deliveries
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/packages` | List all deliveries |
+| `GET` | `/packages?deliveryMan={name}` | Filter by delivery person |
+| `POST` | `/packages` | Create new delivery |
+| `DELETE` | `/packages/:id` | Delete delivery |
+| `DELETE` | `/packages/deliveryman/:name` | Delete all by delivery person |
+
+#### Images
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/upload` | Upload image |
+| `PUT` | `/upload/:id` | Update delivery with image + AI extraction |
+
+#### Statistics
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/deliverymen` | List delivery people with stats |
+
+---
+
+### Request & Response Examples
+
+#### Create Delivery
+
+```bash
+POST /api/packages
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "trackingCode": "BR123456789",
+  "ownerName": "John Doe",
+  "cpf": "123.456.789-00",
+  "relation": "Owner",
+  "location": "Block A - Apt 101",
+  "deliveryMan": "mikael",
+  "registerDate": "2025-12-18",
+  "imageUrl": "http://example.com/image.png"
+}
+```
+
+**Response:**
+```json
+{
+  "status": 200,
+  "data": {
+    "_id": "507f1f77bcf86cd799439011",
+    "trackingCode": "BR123456789",
+    "ownerName": "John Doe",
+    "createdAt": "2025-12-18T10:30:00.000Z",
+    "updatedAt": "2025-12-18T10:30:00.000Z"
+  }
+}
+```
+
+#### Upload Image
+
+```bash
+POST /api/upload
+Content-Type: multipart/form-data
+```
+
+**Form Data:**
+- `image`: File (PNG, JPG, etc.)
+
+**Response:**
+```json
+{
+  "url": "http://localhost:3000/uploads/9f8d7c6a2b1d4e5f.png"
+}
+```
+
+#### List Delivery People
+
+```bash
+GET /api/deliverymen
+```
+
+**Response:**
+```json
+{
+  "status": 200,
+  "data": [
+    {
+      "name": "mikael",
+      "count": 15,
+      "lastDelivery": "2025-12-18T14:30:00.000Z"
+    }
+  ]
+}
+```
+
+---
+
+## Docker Deployment
+
+### Quick Start
+
+```bash
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f backend
+
+# Stop services
+docker-compose down
+```
+
+### Services
+
+| Service | Port | Description |
+|---------|------|-------------|
+| `backend` | 3000 | Node.js API |
+| `mongodb` | 27017 | MongoDB database |
+
+### Docker Compose Configuration
+
+```yaml
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    volumes:
+      - mongodb_data:/data/db
+
+  backend:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      - STRING_CONEXAO=mongodb://admin:admin123@mongodb:27017/delivery-hub?authSource=admin
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
+```
+
+### Development with Debugging
+
+```bash
+# Start with debug mode
+docker-compose -f docker-compose.debug.yml up -d
+```
+
+Debug port: `9229` (Node Inspector)
+
+---
+
+## Environment Variables
+
+| Variable | Required | Description | Example |
+|----------|----------|-------------|---------|
+| `STRING_CONEXAO` | Yes | MongoDB connection string | `mongodb://localhost:27017/delivery-hub` |
+| `GEMINI_API_KEY` | Yes | Google Generative AI key | `AIzaSy...` |
+| `BASE_URL` | No | Base URL for image URLs | `http://localhost:3000` |
+| `NODE_ENV` | No | Environment mode | `development` or `production` |
+
+---
+
+## Database Schema
+
+### Delivery Document
+
+```javascript
+{
+  _id: ObjectId,
+  trackingCode: String,
+  ownerName: String,
+  cpf: String,
+  relation: String,
+  location: String,
+  deliveryMan: String,
+  registerDate: String,
+  imageUrl: String,
+  imgUrl: String,
+  destination: String,      // AI-extracted
+  createdAt: Date,          // Auto-generated
+  updatedAt: Date           // Auto-updated
+}
+```
+
+---
+
+## AI Integration
+
+The API uses **Google Gemini 1.5 Flash** to automatically extract recipient names from delivery package images.
+
+### How it Works
+
+1. Image uploaded via `POST /api/upload`
+2. On `PUT /api/upload/:id`, image is processed by Gemini AI
+3. AI extracts recipient name from package label
+4. Delivery record updated with extracted `destination` field
+
+### Configuration
+
+Obtain your API key from [Google AI Studio](https://makersuite.google.com/app/apikey) and add it to your `.env` file.
+
+---
+
+## Related Projects
+
+This API is part of the **Entregas Hub** ecosystem:
+
+| Project | Description | Tech |
+|---------|-------------|------|
+| [entrega_hub](../entrega_hub) | Mobile app for delivery drivers | Flutter |
+| [logistics_app](../logistics_app) | Pickup management app | Flutter |
+| [eaasy_stock](../eaasy_stock) | Warehouse scanning app | Flutter |
+| [entregas_hub_web_panel](../entregas_hub_web_panel) | Web monitoring dashboard | Flutter Web |
+
+---
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Code Style
+
+- Use ES Modules (`import/export`)
+- Follow MVC pattern
+- Add error handling to all endpoints
+- Document new endpoints in this README
+
+---
+
+## License
+
+This project is licensed under the **GNU Affero General Public License v3.0** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+<div align="center">
+
+**[Back to Top](#entregas-hub-api)**
+
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=flat-square&logo=github)](https://github.com/mikaeldavid/entregas_hub_back_end)
+
+</div>

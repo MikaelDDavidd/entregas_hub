@@ -1,51 +1,60 @@
-// class  ExcelServices {
-//     Future<void> generateExcel() async {
-//     try {
-//       var excel = Excel.createExcel();
-//       Sheet sheet = excel['Sheet1'];
+import 'dart:io';
+import 'package:eaasy_stock/app/modules/home/models/delivery_model.dart';
+import 'package:excel/excel.dart';
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
-//       sheet.appendRow([
-//         TextCellValue('Tracking Code'),
-//         TextCellValue('Data'),
-//       ]);
+class ExcelServices {
+  Future<void> generateExcel(List<Delivery> deliveries) async {
+    try {
+      var excel = Excel.createExcel();
+      Sheet sheet = excel['Entregas'];
 
-//       for (var delivery in deliveries) {
-//         try {
-//           var trackingCode = delivery['trackingCode'] ?? '';
-//           var registerDate = DateFormat('dd/MM/yyyy HH:mm')
-//               .parse(delivery['registerDate'] ?? '');
-//           var formattedDate = DateFormat('dd/MM/yyyy').format(registerDate);
+      sheet.appendRow([
+        TextCellValue('Código de Rastreio'),
+        TextCellValue('Data de Registro'),
+        TextCellValue('Hora de Registro'),
+      ]);
 
-//           sheet.appendRow([
-//             TextCellValue(trackingCode),
-//             TextCellValue(formattedDate),
-//           ]);
-//         } catch (e) {
-//           print("Erro ao processar linha do Excel: $e");
-//         }
-//       }
+      for (var delivery in deliveries) {
+        try {
+          DateTime parsedDate =
+              DateFormat('yyyy-MM-dd HH:mm:ss').parse(delivery.registerDate);
+          String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
+          String formattedTime = DateFormat('HH:mm:ss').format(parsedDate);
 
-//       String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
-//       String fileName = 'entregas_$currentDate.xlsx';
+          sheet.appendRow([
+            TextCellValue(delivery.trackingCode),
+            TextCellValue(formattedDate),
+            TextCellValue(formattedTime),
+          ]);
+        } catch (e) {
+          print("Erro ao processar linha do Excel: $e");
+        }
+      }
 
-//       List<int>? fileBytes = excel.save();
-//       if (fileBytes != null) {
-//         final directory = await getApplicationDocumentsDirectory();
-//         String outputPath = "${directory.path}/$fileName";
+      String currentDate = DateFormat('dd-MM-yyyy_HH-mm').format(DateTime.now());
+      String fileName = 'entregas_$currentDate.xlsx';
 
-//         File(outputPath)
-//           ..createSync(recursive: true)
-//           ..writeAsBytesSync(fileBytes);
+      List<int>? fileBytes = excel.save();
+      if (fileBytes != null) {
+        final directory = await getApplicationDocumentsDirectory();
+        String outputPath = "${directory.path}/$fileName";
 
-//         await Share.shareXFiles(
-//           [XFile(outputPath)],
-//           text: "Confira a tabela de entregas gerada pelo app!",
-//         );
-//       } else {
-//         print("Erro ao gerar o arquivo Excel.");
-//       }
-//     } catch (e) {
-//       print("Erro ao gerar planilha Excel: $e");
-//     }
-//   }
-// }
+        File(outputPath)
+          ..createSync(recursive: true)
+          ..writeAsBytesSync(fileBytes);
+
+        await Share.shareXFiles(
+          [XFile(outputPath)],
+          text: "Confira a tabela de entregas gerada pelo Eaasy Stock!",
+        );
+      } else {
+        throw Exception("Erro ao gerar o arquivo Excel.");
+      }
+    } catch (e) {
+      throw Exception("Erro ao gerar planilha Excel: $e");
+    }
+  }
+}

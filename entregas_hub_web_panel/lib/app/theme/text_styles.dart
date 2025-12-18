@@ -1,112 +1,106 @@
-// lib/core/theme/text_styles.dart
 import 'package:flutter/material.dart';
+import 'colors.dart';
 
 class AppTextStyles {
-  // Estilos de Display
   static const TextStyle displayLarge = TextStyle(
-    fontSize: 57,
+    fontSize: 32,
     fontWeight: FontWeight.bold,
-    color: Colors.black,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle displayMedium = TextStyle(
-    fontSize: 45,
+    fontSize: 24,
     fontWeight: FontWeight.bold,
-    color: Colors.black,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle displaySmall = TextStyle(
-    fontSize: 36,
+    fontSize: 20,
     fontWeight: FontWeight.bold,
-    color: Colors.black,
+    color: AppColors.textPrimary,
   );
 
-  // Estilos de cabeçalhos
   static const TextStyle headlineLarge = TextStyle(
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: FontWeight.bold,
-    color: Colors.black,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle headlineMedium = TextStyle(
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: FontWeight.bold,
-    color: Colors.black,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle headlineSmall = TextStyle(
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: FontWeight.bold,
-    color: Colors.black,
+    color: AppColors.textPrimary,
   );
 
-  // Estilos de títulos
   static const TextStyle titleLarge = TextStyle(
-    fontSize: 22,
-    fontWeight: FontWeight.bold,
-    color: Colors.black,
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle titleMedium = TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.w500,
-    color: Colors.black,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle titleSmall = TextStyle(
     fontSize: 14,
-    fontWeight: FontWeight.w500,
-    color: Colors.black,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textPrimary,
   );
 
-  // Estilos de corpo
   static const TextStyle bodyLarge = TextStyle(
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: FontWeight.w400,
-    color: Colors.black,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle bodyMedium = TextStyle(
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: FontWeight.w400,
-    color: Colors.black,
+    color: AppColors.textSecondary,
   );
 
   static const TextStyle bodySmall = TextStyle(
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: FontWeight.w400,
-    color: Colors.black,
+    color: AppColors.textSecondary,
   );
 
-  // Estilos de labels
   static const TextStyle labelLarge = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w600,
-    color: Colors.black,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle labelMedium = TextStyle(
     fontSize: 12,
-    fontWeight: FontWeight.w500,
-    color: Colors.black,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textSecondary,
   );
 
   static const TextStyle labelSmall = TextStyle(
     fontSize: 11,
-    fontWeight: FontWeight.w500,
-    color: Colors.black,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textSecondary,
   );
 
-  // Estilo de botões
   static const TextStyle button = TextStyle(
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
 
-  // Estilo de legendas/captions
   static const TextStyle caption = TextStyle(
     fontSize: 12,
-    color: Colors.grey,
+    fontWeight: FontWeight.w400,
+    color: AppColors.textSecondary,
   );
 }

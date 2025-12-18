@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:entrega_hub/app/config/api_config.dart';
+import 'package:entrega_hub/app/data/app_values.dart';
+import 'package:entrega_hub/app/data/storage.dart';
 import 'package:entrega_hub/app/models/package_model.dart';
 import 'package:entrega_hub/app/modules/home/controllers/upload_controller.dart';
 import 'package:entrega_hub/app/modules/home/widgets/delivery_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
@@ -22,6 +26,8 @@ class HomeController extends GetxController {
   var fetchError = false.obs;
   final searchController = TextEditingController();
   final qrCode = ''.obs;
+  var userName = ''.obs;
+  var isScanning = false.obs;
   File? imageFile;
   String location = 'Estante';
 
@@ -29,14 +35,16 @@ Future<void> fetchData() async {
     isLoading(true);
     fetchError(false);
     try {
+      final url = '${ApiConfig.baseUrl}/packages?deliveryMan=${userName.value.toLowerCase()}';
       final response = await https
-          .get(Uri.parse('http://mikaeldavid.online/api/packages'))
+          .get(Uri.parse(url))
           .timeout(Duration(seconds: 10)); // Timeout de 10 segundos
 
       if (response.statusCode == 200) {
-        var data = jsonDecode(response.body);
-        // Processa os dados normalmente
-        packages.assignAll(data.map<PackageModel>((json) => PackageModel.fromJson(json)).toList());
+        var responseData = jsonDecode(response.body);
+        // Backend retorna {status: 200, data: [...]}
+        var dataList = responseData['data'] as List;
+        packages.assignAll(dataList.map<PackageModel>((json) => PackageModel.fromJson(json)).toList());
       } else {
         fetchError(true);
         throw Exception('Falha ao carregar pacotes: ${response.statusCode}');
@@ -55,9 +63,27 @@ Future<void> fetchData() async {
     }
   }
 
+  void loadUserName() {
+    final storage = GetStorage();
+    String name = storage.read(StorageKeys.userKey) ?? 'Entregador';
+    userName.value = _capitalize(name);
+  }
+
+  String _capitalize(String text) {
+    if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1).toLowerCase();
+  }
+
+  void logout() {
+    final storage = GetStorage();
+    storage.remove(StorageKeys.userKey);
+    Get.offAllNamed('/login');
+  }
+
   @override
   void onInit() {
     super.onInit();
+    loadUserName();
     fetchData();
     try {
       loadPackages();
@@ -103,18 +129,43 @@ Future<void> fetchData() async {
   }
 
   void startScanning() {
+    if (isScanning.value) {
+      print('Scanner já está ativo');
+      return;
+    }
+
     try {
+      isScanning.value = true;
+
+      Future.delayed(Duration(seconds: 30), () {
+        if (isScanning.value) {
+          isScanning.value = false;
+          print('Scanner timeout - resetando estado');
+        }
+      });
+
       _qrBarCodeScannerDialogPlugin.getScannedQrBarCode(
         context: Get.context!,
         onCode: (String? code) {
-          if (code != null) {
+          if (!isScanning.value) return;
+
+          isScanning.value = false;
+          if (code != null && code.isNotEmpty) {
             qrCode.value = code;
             _captureImageAfterScanning(code);
+          } else {
+            print('Scanner cancelado ou código vazio');
           }
         },
       );
     } catch (e) {
+      isScanning.value = false;
       print('Erro ao iniciar a leitura do QR Code: $e');
+      Get.snackbar(
+        'Erro',
+        'Não foi possível abrir o scanner',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
@@ -199,6 +250,7 @@ Future<void> fetchData() async {
         'subRelation': subRelation ?? "none",
         'cpf': cpf,
         'location': location,
+        'deliveryMan': userName.value.toLowerCase(),
         'synced': false,
         'imagePath': imageFile?.path,
       };

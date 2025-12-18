@@ -1,0 +1,41 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: entregas_hub_mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: delivery-hub
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - entregas_network
+
+  backend:
+    build: .
+    container_name: entregas_hub_backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      STRING_CONEXAO: mongodb://admin:admin123@mongodb:27017/delivery-hub?authSource=admin
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      NODE_ENV: production
+      BASE_URL: http://192.168.100.223:3000
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      - mongodb
+    networks:
+      - entregas_network
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  entregas_network:
+    driver: bridge

@@ -1,8 +1,11 @@
-import 'dart:io';
+import 'package:entrega_hub/app/modules/home/widgets/action_buttons_widget.dart';
+import 'package:entrega_hub/app/modules/home/widgets/empty_state_widget.dart';
+import 'package:entrega_hub/app/modules/home/widgets/error_state_widget.dart';
+import 'package:entrega_hub/app/modules/home/widgets/header_widget.dart';
+import 'package:entrega_hub/app/modules/home/widgets/packages_list_widget.dart';
+import 'package:entrega_hub/app/modules/home/widgets/search_bar_widget.dart';
 import 'package:entrega_hub/theme/colors.dart';
-import 'package:entrega_hub/theme/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 
@@ -12,93 +15,53 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: RefreshIndicator(
         onRefresh: () async {
           await controller.fetchData();
         },
+        color: AppColors.primaryColor,
         child: SafeArea(
           child: CustomScrollView(
             slivers: [
-              // Nome do usuário no canto superior esquerdo
               SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
+                  color: AppColors.backgroundColor,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Olá, Usuário', // Nome fictício
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      const HeaderWidget(),
+                      const SizedBox(height: 24),
+                      const ActionButtonsWidget(),
                     ],
                   ),
                 ),
               ),
-
-              // Botão de registrar entrega
-              SliverToBoxAdapter(
+              const SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      controller.startScanning();
-                      print('Registrar entrega');
-                    },
-                    icon: Icon(
-                      Icons.qr_code_scanner,
-                      size: 50,
-                      color: AppColors.backgroundColor,
-                    ),
-                    label: Text(
-                      "Registrar Entrega",
-                      style: TextStyles.buttonText,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 100),
-                    ),
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  child: SearchBarWidget(),
                 ),
               ),
-
-              // Barra de pesquisa
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Buscar encomendas...',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    // onChanged: (value) => controller.filterDeliveries(value),
-                  ),
-                ),
-              ),
-
-              // Cabeçalho com botão de filtro
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Encomendas Entregues',
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textColor,
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.filter_list),
+                        icon: const Icon(Icons.filter_list),
+                        color: AppColors.primaryColor,
                         onPressed: () {
-                          // Ação para abrir filtro
                           print('Abrir filtro');
                         },
                       ),
@@ -106,79 +69,26 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
               ),
-
-              // Exibir Loading ou Lista de Pacotes
               Obx(() {
                 if (controller.isLoading.value) {
                   return SliverFillRemaining(
                     child: Center(
-                      child:
-                          CircularProgressIndicator(), // Indicador de carregamento
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryColor,
+                      ),
                     ),
                   );
                 } else if (!controller.isLoading.value &&
                     controller.fetchError.value) {
-                  return SliverFillRemaining(
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Exibe o SVG de erro
-                          SvgPicture.asset(
-                            'assets/package-failed.svg',
-                            width: 100,
-                            height: 100,
-                            colorFilter: ColorFilter.mode(
-                                AppColors.primaryColor, BlendMode.srcIn),
-                          ),
-                          SizedBox(height: 16),
-                          // Exibe a mensagem de erro
-                          Text(
-                            'Erro ao obter os pacotes. Tente novamente.',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          SizedBox(height: 16),
-                          // Botão de tentar novamente
-                          ElevatedButton(
-                            onPressed: () {
-                              controller.fetchData(); // Recarrega os dados
-                            },
-                            child: Text('Tentar Novamente', style: TextStyles.buttonText,),
-                          ),
-                        ],
-                      ),
-                    ),
+                  return const SliverFillRemaining(
+                    child: ErrorStateWidget(),
+                  );
+                } else if (controller.packages.isEmpty) {
+                  return const SliverFillRemaining(
+                    child: EmptyStateWidget(),
                   );
                 } else {
-                  return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        var package = controller.packages[index];
-                        return ListTile(
-                          leading: package.imageUrl != null
-                              ? Image.network(
-                                  package.imageUrl, // Exibe a URL da imagem
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.cover,
-                                )
-                              : Icon(Icons.image,
-                                  size: 50), // Caso não tenha imagem
-                          title: Text('Código: ${package.trackingCode}'),
-                          subtitle: Text('${package.ownerName}'),
-                          trailing: Text(
-                            "Entregue",
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        );
-                      },
-                      childCount: controller
-                          .packages.length, // Exibe a quantidade de pacotes
-                    ),
-                  );
+                  return const PackagesListWidget();
                 }
               }),
             ],

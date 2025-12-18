@@ -12,8 +12,8 @@ void main() {
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      // Aplicando o tema escuro
       darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.light,
       title: "Application",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
